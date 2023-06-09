@@ -13,8 +13,15 @@ public class ShortLinkService {
     private ShortLinkRepository shortLinkRepository;
 
     public ShortLinkDto create(ShortLinkDto dto){
-        ShortLink entity = shortLinkRepository.save(new ShortLink(dto.getCode(), dto.getFullLink()));
-        return new ShortLinkDto(entity.getId(), entity.getCode(), entity.getFullLink());
+        if (dto.getCode() == null){
+            GenerateShortLink generatedString = new GenerateShortLink();
+            ShortLink entity = shortLinkRepository.save(new ShortLink(generatedString.Generate().substring(0, 8), dto.getFullLink()));
+            return new ShortLinkDto(entity.getId(), entity.getCode(), entity.getFullLink());
+        } else {
+            ShortLink entity = shortLinkRepository.save(new ShortLink(dto.getCode(), dto.getFullLink()));
+            return new ShortLinkDto(entity.getId(), entity.getCode(), entity.getFullLink());
+        }
+//        return new ShortLinkDto(entity.getId(), entity.getCode(), entity.getFullLink());
     }
 
     public String findRedirectLink(String code){
