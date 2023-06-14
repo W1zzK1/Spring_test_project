@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ShortLinkRepository extends JpaRepository<ShortLink, Long> {
-    ShortLink findShortLinkByCode(String code);
-
-//    List<ShortLinkVisit> findByShortLink(ShortLink shortLink);
+public interface ShortLinkVisitRepostory extends JpaRepository<ShortLinkVisit, Long> {
+    List<ShortLinkVisit> findByShortLink(ShortLink shortLink);
 }

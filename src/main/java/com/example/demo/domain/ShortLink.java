@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -21,6 +22,9 @@ public class ShortLink {
 
     @Column(name = "full_link", length = 1000)
     private String fullLink;
+
+    @OneToMany(mappedBy = "shortLink")
+    private List<ShortLinkVisit> visits;
 
     public ShortLink(String code, String fullLink) {
         this.code = code;

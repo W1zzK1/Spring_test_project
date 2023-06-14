@@ -12,6 +12,9 @@ public class ShortLinkService {
     @Autowired
     private ShortLinkRepository shortLinkRepository;
 
+    @Autowired
+    private StatisticService statisticService;
+
     public ShortLinkDto create(ShortLinkDto dto){
         if (dto.getCode() == null){
             GenerateShortLink generatedString = new GenerateShortLink();
@@ -24,8 +27,14 @@ public class ShortLinkService {
 //        return new ShortLinkDto(entity.getId(), entity.getCode(), entity.getFullLink());
     }
 
-    public String findRedirectLink(String code){
+    public String findRedirectLink(String code, String userAgent){
         ShortLink shortLink = shortLinkRepository.findShortLinkByCode(code);
+        statisticService.increaseStatistic(shortLink, userAgent);
         return shortLink.getFullLink();
+    }
+
+    public ShortLink findByCode(String code){
+        ShortLink shortLink = shortLinkRepository.findShortLinkByCode(code);
+        return shortLink;
     }
 }
